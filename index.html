@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="quiz">
+        <div class="question">
+            <h2 id="question-text"></h2>
+            <form id="quiz-form">
+                <input type="text" name="answer" id="answer-input" autocomplete="off"/>
+                <input type="submit" value="Rispondi" />
+            </form>
+        </div>
+    </div>
+
+    <script>
+let questions = [
+            {
+                "n_domanda": 1,
+                "testo_domanda": "Qual è la capitale dell'Italia?",
+                "risposta_utente": "",
+                "risposta_corretta": "roma",
+                "punteggio": 1
+            },
+            {
+                "n_domanda": 2,
+                "testo_domanda": "Esiste il Molise?",
+                "risposta_utente": "",
+                "risposta_corretta": "no",
+                "punteggio": 5
+            },
+            {
+                "n_domanda": 3,
+                "testo_domanda": "Qual è il colore del cielo?",
+                "risposta_utente": "",
+                "risposta_corretta": "blu",
+                "punteggio": 2
+            },
+            {
+                "n_domanda": 4,
+                "testo_domanda": "Quanto fa 3 + 5?",
+                "risposta_utente": "",
+                "risposta_corretta": "8",
+                "punteggio": 1
+            },
+            {
+                "n_domanda": 5,
+                "testo_domanda": "Qual è l'elemento chimico con simbolo 'O'?",
+                "risposta_utente": "",
+                "risposta_corretta": "ossigeno",
+                "punteggio": 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let totalScore = 0;
+
+        let questionText = document.getElementById("question-text");
+        let answerInput = document.getElementById("answer-input");
+        let quizForm = document.getElementById("quiz-form");
+
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                questionText.textContent = questions[currentQuestionIndex].testo_domanda;
+                answerInput.value = "";
+            } else {
+                showResults();
+            }
+        }
+
+
+        window.addEventListener('load',function(e){
+            loadQuestion();
+        })
+
+        function showResults() {
+            let resultsHTML = "Quiz completato! Punteggio totale: " + totalScore; // `Quiz completato! Punteggio totale: ${totalScore}`; (un altro modo per concatenare stringhe e variabili in automatico)  
+            document.querySelector(".quiz").innerHTML = resultsHTML;
+        }
+
+        quizForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let userAnswer = answerInput.value.trim().toLowerCase();
+            let correctAnswer = questions[currentQuestionIndex].risposta_corretta.toLowerCase();
+            questions[currentQuestionIndex].risposta_utente = userAnswer;
+
+            if (userAnswer === correctAnswer) {
+                totalScore += questions[currentQuestionIndex].punteggio;
+            }
+
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+    </script>
+</body>
+
+</html>
